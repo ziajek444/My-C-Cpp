@@ -30,6 +30,7 @@ private:
     int val;
     int range;
 public:
+    // Important is to make constructor with parameters or with ...
     ~Rint() {};
     Rint():min_val(0),max_val((int)pow(2,sizeof(int)*7)-1),val(0)
     {
@@ -115,12 +116,15 @@ ostream& operator<<(ostream& out,Rint &v)
 int main()
 {
     Rint v;
+    v=1;
     for(int i=0;i<12;i++) { v = v+10; cout<<v<<endl; v = 10+v; }
     v = 255+v;
+
     Rint v2=50;
-    //nie dzia³a inicjalizacja (równoczesna deklaracja i przypisanie wartoœci)
-
-
+    //nie dziaÂ³a inicjalizacja (rÃ³wnoczesna deklaracja i przypisanie wartoÅ“ci)
     cout<<v2<<endl;
+    v2 = 50;
+    cout<<v2<<endl;
+
 return 0;
 }
