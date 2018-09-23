@@ -22,8 +22,8 @@ uint8_t * ConstKey(int,int);
 uint8_t functionCK(int);
 int silnia (int);
 string FirstParameters();
-string Cezar3D_Encrypt(string const &msg_in,char const tab_in[38][254]);
-string Cezar3D_Decrypt(string const &msg_in,char const tab_in[38][254]);
+string Cezar3D_Encrypt(string const &msg_in,char const tab_in[38][76]);
+string Cezar3D_Decrypt(string const &msg_in,char const tab_in[38][76]);
 
 
 
@@ -67,32 +67,55 @@ int main()
 	//zsumowac wiadomosc i porównac z suma kontroln¹ 
 
 	//jezeli wszystko przebieg³o bez b³êdów stworzyc klucz na podstawie parametrow podanych w wiadomosci
-	/*
-	int p1 = 20, p2 = 12, p3 = 18;
-	int xc = 2;
-	int t = 5;
-	int off = 1;
-	int result = 0;
-	for(int x=t;;x+=1) 
-	{
-		if((static_cast<short>(x)&0xF)==0) 
-		{
-			cout<<x<<endl;
-			cin.get();
-		}
-		result = int((p1*sin(cos(x))*pow(x,xc)) - p2*(pow(x,2))/p3);
-		cout<<"["<<(unsigned int)result<<"]["<<(unsigned short)result<<"]["<<(unsigned short)(result&0xFF)<<"] \n";
-	}*/
-	char tab[38][254];
-	for(int i=0;i<38;i++) for(int j=0;j<254;j++) tab[i][j] = 20+i+j;
+	
+	char tab[38][76] = {
+		{'a','A','b','B','c','C','d','D','e','E','f','F','g','G','h','H','i','J','k','K','0','1','2','3','4','5','6','7','8','9','q','Q','w','W','r','R','t','T' },
+		{'a','A','b','B','c','C','d','D','e','E','f','F','g','G','h','H','i','J','k','K','0','1','2','3','4','5','6','7','8','9','q','Q','w','W','r','R','t','T' },
+		{'a','A','b','B','c','C','d','D','e','E','f','F','g','G','h','H','i','J','k','K','0','1','2','3','4','5','6','7','8','9','q','Q','w','W','r','R','t','T' },
+		{'a','A','b','B','c','C','d','D','e','E','f','F','g','G','h','H','i','J','k','K','0','1','2','3','4','5','6','7','8','9','q','Q','w','W','r','R','t','T' },
+		{'a','A','b','B','c','C','d','D','e','E','f','F','g','G','h','H','i','J','k','K','0','1','2','3','4','5','6','7','8','9','q','Q','w','W','r','R','t','T' },
+		{'a','A','b','B','c','C','d','D','e','E','f','F','g','G','h','H','i','J','k','K','0','1','2','3','4','5','6','7','8','9','q','Q','w','W','r','R','t','T' },
+		{'a','A','b','B','c','C','d','D','e','E','f','F','g','G','h','H','i','J','k','K','0','1','2','3','4','5','6','7','8','9','q','Q','w','W','r','R','t','T' },
+		{'a','A','b','B','c','C','d','D','e','E','f','F','g','G','h','H','i','J','k','K','0','1','2','3','4','5','6','7','8','9','q','Q','w','W','r','R','t','T' },
+		{'a','A','b','B','c','C','d','D','e','E','f','F','g','G','h','H','i','J','k','K','0','1','2','3','4','5','6','7','8','9','q','Q','w','W','r','R','t','T' },
+		{'a','A','b','B','c','C','d','D','e','E','f','F','g','G','h','H','i','J','k','K','0','1','2','3','4','5','6','7','8','9','q','Q','w','W','r','R','t','T' },
+		{'a','A','b','B','c','C','d','D','e','E','f','F','g','G','h','H','i','J','k','K','0','1','2','3','4','5','6','7','8','9','q','Q','w','W','r','R','t','T' },
+		{'a','A','b','B','c','C','d','D','e','E','f','F','g','G','h','H','i','J','k','K','0','1','2','3','4','5','6','7','8','9','q','Q','w','W','r','R','t','T' },
+		{'a','A','b','B','c','C','d','D','e','E','f','F','g','G','h','H','i','J','k','K','0','1','2','3','4','5','6','7','8','9','q','Q','w','W','r','R','t','T' },
+		{'a','A','b','B','c','C','d','D','e','E','f','F','g','G','h','H','i','J','k','K','0','1','2','3','4','5','6','7','8','9','q','Q','w','W','r','R','t','T' },
+		{'a','A','b','B','c','C','d','D','e','E','f','F','g','G','h','H','i','J','k','K','0','1','2','3','4','5','6','7','8','9','q','Q','w','W','r','R','t','T' },
+		{'a','A','b','B','c','C','d','D','e','E','f','F','g','G','h','H','i','J','k','K','0','1','2','3','4','5','6','7','8','9','q','Q','w','W','r','R','t','T' },
+		{'a','A','b','B','c','C','d','D','e','E','f','F','g','G','h','H','i','J','k','K','0','1','2','3','4','5','6','7','8','9','q','Q','w','W','r','R','t','T' },
+		{'a','A','b','B','c','C','d','D','e','E','f','F','g','G','h','H','i','J','k','K','0','1','2','3','4','5','6','7','8','9','q','Q','w','W','r','R','t','T' },
+		{'a','A','b','B','c','C','d','D','e','E','f','F','g','G','h','H','i','J','k','K','0','1','2','3','4','5','6','7','8','9','q','Q','w','W','r','R','t','T' },
+		{'a','A','b','B','c','C','d','D','e','E','f','F','g','G','h','H','i','J','k','K','0','1','2','3','4','5','6','7','8','9','q','Q','w','W','r','R','t','T' },
+		{'a','A','b','B','c','C','d','D','e','E','f','F','g','G','h','H','i','J','k','K','0','1','2','3','4','5','6','7','8','9','q','Q','w','W','r','R','t','T' },
+		{'a','A','b','B','c','C','d','D','e','E','f','F','g','G','h','H','i','J','k','K','0','1','2','3','4','5','6','7','8','9','q','Q','w','W','r','R','t','T' },
+		{'a','A','b','B','c','C','d','D','e','E','f','F','g','G','h','H','i','J','k','K','0','1','2','3','4','5','6','7','8','9','q','Q','w','W','r','R','t','T' },
+		{'a','A','b','B','c','C','d','D','e','E','f','F','g','G','h','H','i','J','k','K','0','1','2','3','4','5','6','7','8','9','q','Q','w','W','r','R','t','T' },
+		{'a','A','b','B','c','C','d','D','e','E','f','F','g','G','h','H','i','J','k','K','0','1','2','3','4','5','6','7','8','9','q','Q','w','W','r','R','t','T' },
+		{'a','A','b','B','c','C','d','D','e','E','f','F','g','G','h','H','i','J','k','K','0','1','2','3','4','5','6','7','8','9','q','Q','w','W','r','R','t','T' },
+		{'a','A','b','B','c','C','d','D','e','E','f','F','g','G','h','H','i','J','k','K','0','1','2','3','4','5','6','7','8','9','q','Q','w','W','r','R','t','T' },
+		{'a','A','b','B','c','C','d','D','e','E','f','F','g','G','h','H','i','J','k','K','0','1','2','3','4','5','6','7','8','9','q','Q','w','W','r','R','t','T' },
+		{'a','A','b','B','c','C','d','D','e','E','f','F','g','G','h','H','i','J','k','K','0','1','2','3','4','5','6','7','8','9','q','Q','w','W','r','R','t','T' },
+		{'a','A','b','B','c','C','d','D','e','E','f','F','g','G','h','H','i','J','k','K','0','1','2','3','4','5','6','7','8','9','q','Q','w','W','r','R','t','T' },
+		{'a','A','b','B','c','C','d','D','e','E','f','F','g','G','h','H','i','J','k','K','0','1','2','3','4','5','6','7','8','9','q','Q','w','W','r','R','t','T' },
+		{'a','A','b','B','c','C','d','D','e','E','f','F','g','G','h','H','i','J','k','K','0','1','2','3','4','5','6','7','8','9','q','Q','w','W','r','R','t','T' },
+		{'a','A','b','B','c','C','d','D','e','E','f','F','g','G','h','H','i','J','k','K','0','1','2','3','4','5','6','7','8','9','q','Q','w','W','r','R','t','T' },
+		{'a','A','b','B','c','C','d','D','e','E','f','F','g','G','h','H','i','J','k','K','0','1','2','3','4','5','6','7','8','9','q','Q','w','W','r','R','t','T' },
+		{'a','A','b','B','c','C','d','D','e','E','f','F','g','G','h','H','i','J','k','K','0','1','2','3','4','5','6','7','8','9','q','Q','w','W','r','R','t','T' },
+		{'a','A','b','B','c','C','d','D','e','E','f','F','g','G','h','H','i','J','k','K','0','1','2','3','4','5','6','7','8','9','q','Q','w','W','r','R','t','T' },
+		{'a','A','b','B','c','C','d','D','e','E','f','F','g','G','h','H','i','J','k','K','0','1','2','3','4','5','6','7','8','9','q','Q','w','W','r','R','t','T' },
+		{'a','A','b','B','c','C','d','D','e','E','f','F','g','G','h','H','i','J','k','K','0','1','2','3','4','5','6','7','8','9','q','Q','w','W','r','R','t','T' },
+	};
+	
 
-	string st = "abee";
-	st.replace(3,  1,  1, '9');
-	cout<<st<<"\n";
-	string heja = Cezar3D_Encrypt(st,tab);
+	string heja;
+	heja = Cezar3D_Encrypt("abcdd",tab);
 	cout<<heja<<"\n";
-	heja = Cezar3D_Decrypt(heja,tab);
-	cout<<heja<<"\n";
+	string ho;
+	ho = Cezar3D_Decrypt(heja,tab);
+	cout<<ho<<"\n";
 
 	cin.get();
     return 0;
@@ -190,7 +213,7 @@ string FirstParameters()
 
 
 //Add one byte in the begining as start byte, repleace all left bytes form bytes in tables dependency from pervious byte.
-string Cezar3D_Encrypt(string const &msg_in,char const tab_in[38][254])//38 254
+string Cezar3D_Encrypt(string const &msg_in,char const tab_in[38][76])//38 254
 {
 	int tab_index = 0; // 0='0' 1 = '1' ... 36='x' 37 = 'z'
 	
@@ -526,11 +549,12 @@ string Cezar3D_Encrypt(string const &msg_in,char const tab_in[38][254])//38 254
 	return msg_out;
 }
 
-string Cezar3D_Decrypt(string const &msg_in,char const tab_in[38][254])
+string Cezar3D_Decrypt(string const &msg_in,char const tab_in[38][76])
 {
 	int tab_index = 0; // 0='0' 1 = '1' ... 36='x' 37 = 'z'
 	
-	string msg_out = msg_in;
+	//string msg_out = msg_in;
+	string msg_out;
 
 	//1 char
 	switch(msg_in[0])
@@ -801,11 +825,11 @@ string Cezar3D_Decrypt(string const &msg_in,char const tab_in[38][254])
 			//msg_out+= 'z';
 			break;
 		default:
-			throw "wrong input data";
+			throw "wrong input data blabla 3#";
 			break;
 	}
 
-	msg_out = msg_out.substr(1);
+	msg_out = msg_in.substr(1);
 
 	int pos = -1;
 	string s_temp = "";
@@ -819,116 +843,143 @@ string Cezar3D_Decrypt(string const &msg_in,char const tab_in[38][254])
 
 		if(pos != (-1))
 		{
-			switch(pos-1)
+			switch(pos)
 			{
 				case 0:
 				case 1:
 					msg_out.replace(i,  1,  1, '0');
 					tab_index=0;
+					break;
 				case 2:
 				case 3:
 					msg_out.replace(i,  1,  1, '1');
 					tab_index=1;
+					break;
 				case 4:
 				case 5:
 					msg_out.replace(i,  1,  1, '2');
 					tab_index=2;
+					break;
 				case 6:
 				case 7:
 					msg_out.replace(i,  1,  1, '3');
 					tab_index=3;
+					break;
 				case 8:
 				case 9:
 					msg_out.replace(i,  1,  1, '4');
 					tab_index=4;
+					break;
 				case 10:
 				case 11:
 					msg_out.replace(i,  1,  1, '5');
 					tab_index=5;
+					break;
 				case 12:
 				case 13:
 					msg_out.replace(i,  1,  1, '6');
 					tab_index=6;
+					break;
 				case 14:
 				case 15:
 					msg_out.replace(i,  1,  1, '7');
 					tab_index=7;
+					break;
 				case 16:
 				case 17:
 					msg_out.replace(i,  1,  1, '8');
 					tab_index=8;
+					break;
 				case 18:
 				case 19:
 					msg_out.replace(i,  1,  1, '9');
 					tab_index=9;
+					break;
 				case 20:
 				case 21:
 					msg_out.replace(i,  1,  1, ':');
 					tab_index=10;
+					break;
 				case 22:
 				case 23:
 					msg_out.replace(i,  1,  1, ';');
 					tab_index=11;
+					break;
 				case 24:
 				case 25:
 					msg_out.replace(i,  1,  1, 'a');
 					tab_index=12;
+					break;
 				case 26:
 				case 27:
 					msg_out.replace(i,  1,  1, 'b');
 					tab_index=13;
+					break;
 				case 28:
 				case 29:
 					msg_out.replace(i,  1,  1, 'c');
 					tab_index=14;
+					break;
 				case 30:
 				case 31:
 					msg_out.replace(i,  1,  1, 'd');
 					tab_index=15;
+					break;
 				case 32:
 				case 33:
 					msg_out.replace(i,  1,  1, 'e');
 					tab_index=16;
+					break;
 				case 34:
 				case 35:
 					msg_out.replace(i,  1,  1, 'f');
 					tab_index=17;
+					break;
 				case 36:
 				case 37:
 					msg_out.replace(i,  1,  1, 'g');
 					tab_index=18;
+					break;
 				case 38:
 				case 39:
 					msg_out.replace(i,  1,  1, 'h');
 					tab_index=19;
+					break;
 				case 40:
 				case 41:
 					msg_out.replace(i,  1,  1, 'i');
 					tab_index=20;
+					break;
 				case 42:
 				case 43:
 					msg_out.replace(i,  1,  1, 'j');
 					tab_index=21;
+					break;
 				case 44:
 				case 45:
 					msg_out.replace(i,  1,  1, 'k');
 					tab_index=22;
+					break;
 				case 46:
 				case 47:
 					msg_out.replace(i,  1,  1, 'l');
 					tab_index=23;
+					break;
 				case 48:
 				case 49:
 					msg_out.replace(i,  1,  1, 'm');
 					tab_index=24;
+					break;
 				case 50:
 				case 51:
 					msg_out.replace(i,  1,  1, 'n');
 					tab_index=25;
+					break;
 				case 52:
 				case 53:
 					msg_out.replace(i,  1,  1, 'o');
 					tab_index=26;
+					break;
 				case 54:
 				case 55:
 					msg_out.replace(i,  1,  1, 'p');
@@ -937,42 +988,54 @@ string Cezar3D_Decrypt(string const &msg_in,char const tab_in[38][254])
 				case 57:
 					msg_out.replace(i,  1,  1, 'q');
 					tab_index=28;
+					break;
 				case 58:
 				case 59:
 					msg_out.replace(i,  1,  1, 'r');
 					tab_index=29;
+					break;
 				case 60:
 				case 61:
 					msg_out.replace(i,  1,  1, 's');
 					tab_index=30;
+					break;
 				case 62:
 				case 63:
 					msg_out.replace(i,  1,  1, 't');
 					tab_index=31;
+					break;
 				case 64:
 				case 65:
 					msg_out.replace(i,  1,  1, 'u');
 					tab_index=32;
+					break;
 				case 66:
 				case 67:
 					msg_out.replace(i,  1,  1, 'v');
 					tab_index=33;
+					break;
 				case 68:
 				case 69:
 					msg_out.replace(i,  1,  1, 'w');
 					tab_index=34;
+					break;
 				case 70:
 				case 71:
 					msg_out.replace(i,  1,  1, 'x');
 					tab_index=35;
+					break;
 				case 72:
 				case 73:
 					msg_out.replace(i,  1,  1, 'y');
 					tab_index=36;
+					break;
 				case 74:
 				case 75:
 					msg_out.replace(i,  1,  1, 'z');
 					tab_index=37;
+					break;
+				default:
+					cout<<"Cos poszlo nie tak\n";
 			}
 		}
 
