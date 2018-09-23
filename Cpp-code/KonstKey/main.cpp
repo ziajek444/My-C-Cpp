@@ -1,6 +1,7 @@
 // KonstKey.cpp : Defines the entry point for the console application.
 //
-#include "stdafx.h"
+//#include "stdafx.h"
+#include "pch.h"
 #include <iostream>
 #include <stdlib.h>     /* srand, rand */
 #include <time.h>		/* time */
@@ -9,7 +10,7 @@
 #include <random>
 #include "ConstKey.h"
 #include "VarKey.h"
-#include "Cezar3D.h"
+#include "Cezar3d.h"
 
 #ifndef __uint8_t
 typedef unsigned char uint8_t;
@@ -31,44 +32,38 @@ int main()
 	cout<<endl;
 	delete U;
 
-
-	//tworzenie randomowych liczb które bed¹ parametrami "123.234.45.6.456"
-
-	//dodaæ sumê kontroln¹ "123.234.45.6.456.99"
-
-	//dodac znaki koncz¹ce (wypelniajace braki) ¿eby wiadomosc zawsze miala stala d³ugoœæ
-
+	//tworzenie randomowych liczb ktï¿½re bedï¿½ parametrami "123.234.45.6.456"
+	//dodaï¿½ sumï¿½ kontrolnï¿½ "123.234.45.6.456.99"
+	//dodac znaki konczï¿½ce (wypelniajace braki) ï¿½eby wiadomosc zawsze miala stala dï¿½ugoï¿½ï¿½
 	//zapisanie ich jako Cezar 3D (Cezar->znak+x) (Cezar tablicowy->[znak1 to znak2][znak2 to znak3][znakN to znak(N+1) ] )
 	// (Cezar macierzowy -> znak1 to znak2 lub znak3 lub znak4 ...)
-	// Cezar 3D to Cezar macierzowy dla pierwszego znaku, CM->znak1, na podstawie wyboru znaku zastêpczego dla nastêpnego znaku rozkodowywanego
-	// wybierana jest kolejna inna macierz wyboru dla znaków. 
-
-	//na³o¿yæ klucz statyczny (ConstKey)
-
+	// Cezar 3D to Cezar macierzowy dla pierwszego znaku, CM->znak1, na podstawie wyboru znaku zastï¿½pczego dla nastï¿½pnego znaku rozkodowywanego
+	// wybierana jest kolejna inna macierz wyboru dla znakï¿½w. 
+	//naï¿½oï¿½yï¿½ klucz statyczny (ConstKey)
 	//Gotowe mozna wysylac
-
-	//sprawdzic czy wiadomosc ma odp. d³ugoœæ.
-
-	//sci¹gn¹æ klucz ststyczny ~(ConstKey)
-
-	//rozszyfrowac cezara (Cezar 3D mo¿na debugowaæ, sprawdziæ czy nastêpny znak jest w ogóle dopuszczalny)
-	// ka¿dy znak a:z i 0:9 i # to 38 znaków. mog¹ mieæ maksymalnie 6 mo¿liwoœci i 0 oraz 255 s¹ zakazane. 
-
-	//sprawdzic poprawnosc wiadomosci: czy s¹ wszystkie paramtetry, czy maj¹ odpowiedni rozmiar, czy s¹ same liczby i #, czy jest suma kontrolna
-
-	//zsumowac wiadomosc i porównac z suma kontroln¹ 
-
-	//jezeli wszystko przebieg³o bez b³êdów stworzyc klucz na podstawie parametrow podanych w wiadomosci
+	//sprawdzic czy wiadomosc ma odp. dï¿½ugoï¿½ï¿½.
+	//sciï¿½gnï¿½ï¿½ klucz ststyczny ~(ConstKey)
+	//rozszyfrowac cezara (Cezar 3D moï¿½na debugowaï¿½, sprawdziï¿½ czy nastï¿½pny znak jest w ogï¿½le dopuszczalny)
+	// kaï¿½dy znak a:z i 0:9 i # to 38 znakï¿½w. mogï¿½ mieï¿½ maksymalnie 6 moï¿½liwoï¿½ci i 0 oraz 255 sï¿½ zakazane. 
+	//sprawdzic poprawnosc wiadomosci: czy sï¿½ wszystkie paramtetry, czy majï¿½ odpowiedni rozmiar, czy sï¿½ same liczby i #, czy jest suma kontrolna
+	//zsumowac wiadomosc i porï¿½wnac z suma kontrolnï¿½ 
+	//jezeli wszystko przebiegï¿½o bez bï¿½ï¿½dï¿½w stworzyc klucz na podstawie parametrow podanych w wiadomosci
 	
-	
-	
+	char KEYTAB_own[39][39 * 2];
+	for (int i = 0; i < 39; i++) MakeTableUnique(KEYTAB_own[i], 39 * 2);
 
 	string heja;
-	heja = Cezar3D_Encrypt("abcdd",Keytab);
+	heja = Cezar3D_Encrypt("abcdd",c3d::KEYTAB);
 	cout<<heja<<"\n";
 	string ho;
-	ho = Cezar3D_Decrypt(heja,Keytab);
+	ho = Cezar3D_Decrypt(heja, c3d::KEYTAB);
 	cout<<ho<<"\n";
+
+	char tab2[20];
+	MakeTableUnique(tab2, 254);
+	cout << endl;
+	for (int i = 0; i < 254; i++) cout << "{" << (unsigned short)(tab2[i]&0xFF) << "}";
+	cout << "\n\nhere: " << IsTableUnique(tab2, 254) << endl;
 
 	cin.get();
     return 0;
