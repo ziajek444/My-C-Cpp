@@ -65,14 +65,11 @@ namespace c3d
 	};
 }
 
-
 bool IsTableUnique(const char*,int);
 void MakeTableUnique(char*,int);
 int MyCount(const char*, int, unsigned char);
 string Cezar3D_Encrypt(string const &msg_in,char const tab_in[c3d::signs][c3d::signs *2]);
 string Cezar3D_Decrypt(string const &msg_in,char const tab_in[c3d::signs][c3d::signs *2]);
-
-
 
 
 //Add one byte in the begining as start byte, repleace all left bytes form bytes in tables dependency from pervious byte.
@@ -256,165 +253,169 @@ string Cezar3D_Encrypt(string const &msg_in,char const tab_in[c3d::signs][c3d::s
 			break;
 	}
 
+	int index = 1;
+	int mul;
+
 	for(char n : msg_in)
 	{
+		mul = ((index << 1) & 0xFF);
 		choice = rd() % 40; //(0:40)
 		switch(n)
 		{
 			case '0':
-				msg_out+= (choice>20) ?  tab_in[tab_index][0] : tab_in[tab_index][1];
+				msg_out+= (choice>20) ?  (tab_in[tab_index][0]+mul) : (tab_in[tab_index][1] + mul) ;
 				tab_index = 0;
 				break;
 			case '1':
-				msg_out+= (choice>20) ?  tab_in[tab_index][2] : tab_in[tab_index][3];
+				msg_out+= (choice>20) ?  (tab_in[tab_index][2] + mul) : (tab_in[tab_index][3] + mul) ;
 				tab_index = 1;
 				break;
 			case '2':
-				msg_out+= (choice>20) ?  tab_in[tab_index][4] : tab_in[tab_index][5];
+				msg_out+= (choice>20) ? (tab_in[tab_index][4] + mul) : (tab_in[tab_index][5] + mul);
 				tab_index = 2;
 				break;
 			case '3':
-				msg_out+= (choice>20) ?  tab_in[tab_index][6] : tab_in[tab_index][7];
+				msg_out+= (choice>20) ?  (tab_in[tab_index][6] + mul) : (tab_in[tab_index][7] + mul);
 				tab_index = 3;
 				break;
 			case '4':
-				msg_out+= (choice>20) ?  tab_in[tab_index][8] : tab_in[tab_index][9];
+				msg_out+= (choice>20) ?  (tab_in[tab_index][8] + mul) : (tab_in[tab_index][9] + mul);
 				tab_index = 4;
 				break;
 			case '5':
-				msg_out+= (choice>20) ?  tab_in[tab_index][10] : tab_in[tab_index][11];
+				msg_out+= (choice>20) ?  (tab_in[tab_index][10] + mul) : (tab_in[tab_index][11] + mul);
 				tab_index = 5;
 				break;
 			case '6':
-				msg_out+= (choice>20) ?  tab_in[tab_index][12] : tab_in[tab_index][13];
+				msg_out+= (choice>20) ?  (tab_in[tab_index][12] + mul) : (tab_in[tab_index][13] + mul);
 				tab_index = 6;
 				break;
 			case '7':
-				msg_out+= (choice>20) ?  tab_in[tab_index][14] : tab_in[tab_index][15];
+				msg_out+= (choice>20) ?  (tab_in[tab_index][14] + mul) : (tab_in[tab_index][15] + mul);
 				tab_index = 7;
 				break;
 			case '8':
-				msg_out+= (choice>20) ?  tab_in[tab_index][16] : tab_in[tab_index][17];
+				msg_out+= (choice>20) ?  (tab_in[tab_index][16] + mul) : (tab_in[tab_index][17] + mul);
 				tab_index = 8;
 				break;
 			case '9':
-				msg_out+= (choice>20) ?  tab_in[tab_index][18] : tab_in[tab_index][19];
+				msg_out+= (choice>20) ?  (tab_in[tab_index][18] + mul) : (tab_in[tab_index][19] + mul);
 				tab_index = 9;
 				break;
 			case ':':
-				msg_out+= (choice>20) ?  tab_in[tab_index][20] : tab_in[tab_index][21];
+				msg_out+= (choice>20) ?  (tab_in[tab_index][20] + mul) : (tab_in[tab_index][21] + mul);
 				tab_index = 10;
 				break;
 			case ';':
-				msg_out+= (choice>20) ?  tab_in[tab_index][22] : tab_in[tab_index][23];
+				msg_out+= (choice>20) ?  (tab_in[tab_index][22] + mul) : (tab_in[tab_index][23] + mul);
 				tab_index = 11;
 				break;
 			case 'a':
-				msg_out+= (choice>20) ?  tab_in[tab_index][24] : tab_in[tab_index][25];
+				msg_out+= (choice>20) ?  (tab_in[tab_index][24] + mul) : (tab_in[tab_index][25] + mul);
 				tab_index = 12;
 				break;
 			case 'b':
-				msg_out+= (choice>20) ?  tab_in[tab_index][26] : tab_in[tab_index][27];
+				msg_out+= (choice>20) ?  (tab_in[tab_index][26] + mul) : (tab_in[tab_index][27] + mul);
 				tab_index = 13;
 				break;
 			case 'c':
-				msg_out+= (choice>20) ?  tab_in[tab_index][28] : tab_in[tab_index][29];
+				msg_out+= (choice>20) ?  (tab_in[tab_index][28] + mul) : (tab_in[tab_index][29] + mul);
 				tab_index = 14;
 				break;
 			case 'd':
-				msg_out+= (choice>20) ?  tab_in[tab_index][30] : tab_in[tab_index][31];
+				msg_out+= (choice>20) ?  (tab_in[tab_index][30] + mul) : (tab_in[tab_index][31] + mul);
 				tab_index = 15;
 				break;
 			case 'e':
-				msg_out+= (choice>20) ?  tab_in[tab_index][32] : tab_in[tab_index][33];
+				msg_out+= (choice>20) ?  (tab_in[tab_index][32] + mul) : (tab_in[tab_index][33] + mul);
 				tab_index = 16;
 				break;
 			case 'f':
-				msg_out+= (choice>20) ?  tab_in[tab_index][34] : tab_in[tab_index][35];
+				msg_out+= (choice>20) ?  (tab_in[tab_index][34] + mul) : (tab_in[tab_index][35] + mul);
 				tab_index = 17;
 				break;
 			case 'g':
-				msg_out+= (choice>20) ?  tab_in[tab_index][36] : tab_in[tab_index][37];
+				msg_out+= (choice>20) ?  (tab_in[tab_index][36] + mul) : (tab_in[tab_index][37] + mul);
 				tab_index = 18;
 				break;
 			case 'h':
-				msg_out+= (choice>20) ?  tab_in[tab_index][38] : tab_in[tab_index][39];
+				msg_out+= (choice>20) ?  (tab_in[tab_index][38] + mul) : (tab_in[tab_index][39] + mul);
 				tab_index = 19;
 				break;
 			case 'i':
-				msg_out+= (choice>20) ?  tab_in[tab_index][40] : tab_in[tab_index][41];
+				msg_out+= (choice>20) ?  (tab_in[tab_index][40] + mul) : (tab_in[tab_index][41] + mul);
 				tab_index = 20;
 				break;
 			case 'j':
-				msg_out+= (choice>20) ?  tab_in[tab_index][42] : tab_in[tab_index][43];
+				msg_out+= (choice>20) ?  (tab_in[tab_index][42] + mul) : (tab_in[tab_index][43] + mul);
 				tab_index = 21;
 				break;
 			case 'k':
-				msg_out+= (choice>20) ?  tab_in[tab_index][44] : tab_in[tab_index][45];
+				msg_out+= (choice>20) ?  (tab_in[tab_index][44] + mul) : (tab_in[tab_index][45] + mul);
 				tab_index = 22;
 				break;
 			case 'l':
-				msg_out+= (choice>20) ?  tab_in[tab_index][46] : tab_in[tab_index][47];
+				msg_out+= (choice>20) ?  (tab_in[tab_index][46] + mul) : (tab_in[tab_index][47] + mul);
 				tab_index = 23;
 				break;
 			case 'm':
-				msg_out+= (choice>20) ?  tab_in[tab_index][48] : tab_in[tab_index][49];
+				msg_out+= (choice>20) ?  (tab_in[tab_index][48] + mul) : (tab_in[tab_index][49] + mul);
 				tab_index = 24;
 				break;
 			case 'n':
-				msg_out+= (choice>20) ?  tab_in[tab_index][50] : tab_in[tab_index][51];
+				msg_out+= (choice>20) ?  (tab_in[tab_index][50] + mul) : (tab_in[tab_index][51] + mul);
 				tab_index = 25;
 				break;
 			case 'o':
-				msg_out+= (choice>20) ?  tab_in[tab_index][52] : tab_in[tab_index][53];
+				msg_out+= (choice>20) ?  (tab_in[tab_index][52] + mul) : (tab_in[tab_index][53] + mul);
 				tab_index = 26;
 				break;
 			case 'p':
-				msg_out+= (choice>20) ?  tab_in[tab_index][54] : tab_in[tab_index][55];
+				msg_out+= (choice>20) ?  (tab_in[tab_index][54] + mul) : (tab_in[tab_index][55] + mul);
 				tab_index = 27;
 				break;
 			case 'q':
-				msg_out+= (choice>20) ?  tab_in[tab_index][56] : tab_in[tab_index][57];
+				msg_out+= (choice>20) ?  (tab_in[tab_index][56] + mul) : (tab_in[tab_index][57] + mul);
 				tab_index = 28;
 				break;
 			case 'r':
-				msg_out+= (choice>20) ?  tab_in[tab_index][58] : tab_in[tab_index][59];
+				msg_out+= (choice>20) ?  (tab_in[tab_index][58] + mul) : (tab_in[tab_index][59] + mul);
 				tab_index = 29;
 				break;
 			case 's':
-				msg_out+= (choice>20) ?  tab_in[tab_index][60] : tab_in[tab_index][61];
+				msg_out+= (choice>20) ?  (tab_in[tab_index][60] + mul) : (tab_in[tab_index][61] + mul);
 				tab_index = 30;
 				break;
 			case 't':
-				msg_out+= (choice>20) ?  tab_in[tab_index][62] : tab_in[tab_index][63];
+				msg_out+= (choice>20) ?  (tab_in[tab_index][62] + mul) : (tab_in[tab_index][63] + mul);
 				tab_index = 31;
 				break;
 			case 'u':
-				msg_out+= (choice>20) ?  tab_in[tab_index][64] : tab_in[tab_index][65];
+				msg_out+= (choice>20) ?  (tab_in[tab_index][64] + mul) : (tab_in[tab_index][65] + mul);
 				tab_index = 32;
 				break;
 			case 'v':
-				msg_out+= (choice>20) ?  tab_in[tab_index][66] : tab_in[tab_index][67];
+				msg_out+= (choice>20) ?  (tab_in[tab_index][66] + mul) : (tab_in[tab_index][67] + mul);
 				tab_index = 33;
 				break;
 			case 'w':
-				msg_out+= (choice>20) ?  tab_in[tab_index][68] : tab_in[tab_index][69];
+				msg_out+= (choice>20) ?  (tab_in[tab_index][68] + mul) : (tab_in[tab_index][69] + mul);
 				tab_index = 34;
 				break;
 			case 'x':
-				msg_out+= (choice>20) ?  tab_in[tab_index][70] : tab_in[tab_index][71];
+				msg_out+= (choice>20) ?  (tab_in[tab_index][70] + mul) : (tab_in[tab_index][71] + mul);
 				tab_index = 35;
 				break;
 			case 'y':
-				msg_out+= (choice>20) ?  tab_in[tab_index][72] : tab_in[tab_index][73];
+				msg_out+= (choice>20) ?  (tab_in[tab_index][72] + mul) : (tab_in[tab_index][73] + mul);
 				tab_index = 36;
 				break;
 			case 'z':
-				msg_out+= (choice>20) ?  tab_in[tab_index][74] : tab_in[tab_index][75];
+				msg_out+= (choice>20) ?  (tab_in[tab_index][74] + mul) : (tab_in[tab_index][75] + mul);
 				tab_index = 37;
 				break;
 		    case '<':
-				msg_out+= (choice>20) ?  tab_in[tab_index][76] : tab_in[tab_index][77];
+				msg_out+= (choice>20) ?  (tab_in[tab_index][76] + mul) : (tab_in[tab_index][77] + mul);
 				tab_index = 38;
 				break;	
 			default:
@@ -422,6 +423,7 @@ string Cezar3D_Encrypt(string const &msg_in,char const tab_in[c3d::signs][c3d::s
 				//throw "wrong input data\nSchould be 0:9 or a:z or # or <";
 				break;
 		}
+		index++;
 	}
 
 	return msg_out;
@@ -719,12 +721,15 @@ string Cezar3D_Decrypt(string const &msg_in,char const tab_in[c3d::signs][c3d::s
 	int pos = -1;
 	string s_temp = "";
 	int i = 0;
+	int index = 1;
+	int mul;
 
 	for(char n : msg_out)
 	{
+		mul = ((index << 1) & 0xFF);
 		s_temp = "";
 		for(int n=0;n< (c3d::signs * 2);n++) s_temp+=tab_in[tab_index][n];
-		pos = s_temp.find(n);
+		pos = s_temp.find((n-mul));
 
 		if(pos != (-1))
 		{
@@ -929,7 +934,8 @@ string Cezar3D_Decrypt(string const &msg_in,char const tab_in[c3d::signs][c3d::s
 					cout<<"Not correct calculate\n";
 			}
 		}
-
+		else cout << "Wrong Cezar3D encrypt inputed !!\n"; //throw "Wrong Cezar3D encrypt inputed !!";
+		index++;
 		i++;
 	}
 
@@ -1001,7 +1007,6 @@ int MyCount(const char* table, int size, unsigned char lf )
 
 	return counter;
 }
-
 
 
 #endif _CEZAR3D_H_

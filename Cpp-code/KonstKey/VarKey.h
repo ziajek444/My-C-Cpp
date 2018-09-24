@@ -26,7 +26,7 @@ string FirstParameters()
 	// tconst <1,100>
 	// tvar <1,unsigned int - 1>
 	// offset <1,100> (co ile iteracji jest ta w³aœciwa)
-	
+
 
 	uint8_t p1,p2,tconst,offset;
 	short p3;
@@ -36,32 +36,32 @@ string FirstParameters()
 	p1 = rand() % 100 + 1;
 
 	string ret_str = "#";
-	ret_str += to_string(p1);
+	ret_str += std::to_string(p1);
 
 	p2 = rand() % 100 + 1;
 
 	ret_str += '#';
-	ret_str += to_string(p2);
+	ret_str += std::to_string(p2);
 
 	p3 = rand() % 100 + 1;
 
 	ret_str += '#';
-	ret_str += to_string(p3);
+	ret_str += std::to_string(p3);
 
 	tconst = rand() % 100 + 1;
 
 	ret_str += '#';
-	ret_str += to_string(tconst);
+	ret_str += std::to_string(tconst);
 
 	tvar = rand() % 100 + 1;
 
 	ret_str += '#';
-	ret_str += to_string(tvar);
+	ret_str += std::to_string(tvar);
 
 	offset = rand() % 100 + 1;
 
 	ret_str += '#';
-	ret_str += to_string(offset);
+	ret_str += std::to_string(offset);
 
 	ret_str += '#';
 
