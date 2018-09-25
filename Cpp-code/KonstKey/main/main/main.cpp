@@ -80,6 +80,12 @@ int main()
 	uint8_t sum = 0;
 	uint8_t mask = 1;
 	cout << (int)BitCounter(able,2,0) << endl;
+
+	string gogo = iCezar3D_Encrypt("abcadlo01", c3d::KEYTAB, 10);
+
+	string gogo2 = iCezar3D_Decrypt(gogo, c3d::KEYTAB, 10);
+
+	cout << gogo << "\n" << gogo2 << endl;
 	
 
 	cin.get();

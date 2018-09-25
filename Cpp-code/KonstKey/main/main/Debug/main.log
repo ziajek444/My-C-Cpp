@@ -1,3 +1,4 @@
 ﻿  main.cpp
+d:\dysk google ziajkowski.marcin@gmail.com\gitrepozytory\my-c-cpp\cpp-code\konstkey\main\main\criptfeatures.h(74): warning C4018: '<': signed/unsigned mismatch
 d:\dysk google ziajkowski.marcin@gmail.com\gitrepozytory\my-c-cpp\cpp-code\konstkey\main\main\cezar3d.h(65): warning C4838: conversion from 'unsigned char' to 'const char' requires a narrowing conversion
   main.vcxproj -> D:\Dysk Google ziajkowski.marcin@gmail.com\GITREPOZYTORY\My-C-Cpp\Cpp-code\KonstKey\main\Debug\main.exe

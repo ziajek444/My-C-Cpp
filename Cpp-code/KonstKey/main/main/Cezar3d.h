@@ -14,7 +14,7 @@ typedef unsigned char uint8_t;
 #include <algorithm>
 #include "ConstKey.h"
 #include "VarKey.h"
-
+#include "CriptFeatures.h"
 
 using namespace std;
 
@@ -70,6 +70,8 @@ void MakeTableUnique(char*,int);
 int MyCount(const char*, int, unsigned char);
 string Cezar3D_Encrypt(string const &msg_in,char const tab_in[c3d::signs][c3d::signs *2]);
 string Cezar3D_Decrypt(string const &msg_in,char const tab_in[c3d::signs][c3d::signs *2]);
+string iCezar3D_Encrypt(string const &msg_in, char const tab_in[c3d::signs][c3d::signs * 2],const int);
+string iCezar3D_Decrypt(string const &msg_in, char const tab_in[c3d::signs][c3d::signs * 2],const int);
 
 
 //Add one byte in the begining as start byte, repleace all left bytes form bytes in tables dependency from pervious byte.
@@ -940,6 +942,56 @@ string Cezar3D_Decrypt(string const &msg_in,char const tab_in[c3d::signs][c3d::s
 	}
 
 	return msg_out;
+}
+
+
+string iCezar3D_Encrypt(string const &msg_in, char const tab_in[c3d::signs][c3d::signs * 2],const int from)
+{
+	int t = from;
+	int len = msg_in.length();
+	uint8_t ones = BitCounter(msg_in, 1);
+	uint8_t sum = SumControl(msg_in);
+
+	string encode = Cezar3D_Encrypt(msg_in, c3d::KEYTAB);
+	encode += (char)ones;
+	encode += (char)sum;
+
+	for (int i = 0; i < (len + 2); i++)
+	{
+		encode.replace(i,1,1, (functionCK(t++)^encode[i]) );
+	}
+
+	return encode;
+}
+
+
+string iCezar3D_Decrypt(string const &msg_in, char const tab_in[c3d::signs][c3d::signs * 2],const int from)
+{
+	int t = from;
+	string decode = "";
+	int len = msg_in.length();
+	for (int i = 0; i < len; i++)
+	{
+		decode += (functionCK(t++) ^ msg_in[i]);
+	}
+	
+	uint8_t ones = msg_in[len -3];
+	uint8_t sum = msg_in[len - 2];
+
+	string tmp = decode;
+	decode = "";
+	for (int i = 0; i < (len - 2); i++)
+	{
+		decode += tmp[i];
+	}
+
+	if (ones != BitCounter(decode, (short)1)) cout<< "Wrong input message #1\n"; //throw "Wrong input message #1";
+	if (sum != SumControl(decode)    ) cout << "Wrong input message #2\n"; //throw "Wrong input message #2";
+
+	
+	decode = Cezar3D_Encrypt(decode, c3d::KEYTAB);
+	
+	return decode;
 }
 
 /// 0 = uniqoe, 1 = not unique, 
