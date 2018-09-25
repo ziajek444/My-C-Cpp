@@ -15,15 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\..\..\..\Dysk Google ziajkowski.marcin%40gmail.com\GITREPOZYTORY\My-C-Cpp\Cpp-code\KonstKey\main\main\pch.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\..\..\..\..\..\..\Dysk Google ziajkowski.marcin%40gmail.com\GITREPOZYTORY\My-C-Cpp\Cpp-code\KonstKey\main\main\pch.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\..\..\..\Dysk Google ziajkowski.marcin%40gmail.com\GITREPOZYTORY\My-C-Cpp\Cpp-code\KonstKey\main\main\main.cpp">
+    <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

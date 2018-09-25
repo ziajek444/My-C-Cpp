@@ -961,6 +961,9 @@ string iCezar3D_Encrypt(string const &msg_in, char const tab_in[c3d::signs][c3d:
 		encode.replace(i,1,1, (functionCK(t++)^encode[i]) );
 	}
 
+	cout << "sum1: " << (int)sum << " | " << (int)SumControl(msg_in) << endl;
+	cout << "one1: " << (int)ones << " | " << (int)BitCounter(msg_in, 1) << endl;
+
 	return encode;
 }
 
@@ -972,11 +975,11 @@ string iCezar3D_Decrypt(string const &msg_in, char const tab_in[c3d::signs][c3d:
 	int len = msg_in.length();
 	for (int i = 0; i < len; i++)
 	{
-		decode += (functionCK(t++) ^ msg_in[i]);
+		decode += (functionCK((t++)) ^ msg_in[i]);
 	}
 	
-	uint8_t ones = msg_in[len -3];
-	uint8_t sum = msg_in[len - 2];
+	uint8_t ones = decode[len - 2];
+	uint8_t sum = decode[len - 1];
 
 	string tmp = decode;
 	decode = "";
@@ -985,12 +988,14 @@ string iCezar3D_Decrypt(string const &msg_in, char const tab_in[c3d::signs][c3d:
 		decode += tmp[i];
 	}
 
-	if (ones != BitCounter(decode, (short)1)) cout<< "Wrong input message #1\n"; //throw "Wrong input message #1";
-	if (sum != SumControl(decode)    ) cout << "Wrong input message #2\n"; //throw "Wrong input message #2";
+	decode = Cezar3D_Decrypt(decode, c3d::KEYTAB);
 
-	
-	decode = Cezar3D_Encrypt(decode, c3d::KEYTAB);
-	
+	if (ones != BitCounter(decode, 1)) cout<< "Wrong input message BitCounter\n"; //throw "Wrong input message #1";
+	if (sum != SumControl(decode)    ) cout << "Wrong input message SumControl\n"; //throw "Wrong input message #2";
+
+	cout << "sum2: " << (int)sum << " | " << (int)SumControl(decode) << endl;
+	cout << "one2: " << (int)ones << " | " << (int)BitCounter(decode,1) << endl;
+
 	return decode;
 }
 
