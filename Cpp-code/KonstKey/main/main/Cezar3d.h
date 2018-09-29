@@ -956,13 +956,10 @@ string iCezar3D_Encrypt(string const &msg_in, char const tab_in[c3d::signs][c3d:
 	encode += (char)ones;
 	encode += (char)sum;
 
-	for (int i = 0; i < (len + 2); i++)
+	for (int i = 0; i < (len + 3); i++) // + coz + random + ones + sum
 	{
 		encode.replace(i,1,1, (functionCK(t++)^encode[i]) );
 	}
-
-	cout << "sum1: " << (int)sum << " | " << (int)SumControl(msg_in) << endl;
-	cout << "one1: " << (int)ones << " | " << (int)BitCounter(msg_in, 1) << endl;
 
 	return encode;
 }
@@ -992,9 +989,6 @@ string iCezar3D_Decrypt(string const &msg_in, char const tab_in[c3d::signs][c3d:
 
 	if (ones != BitCounter(decode, 1)) cout<< "Wrong input message BitCounter\n"; //throw "Wrong input message #1";
 	if (sum != SumControl(decode)    ) cout << "Wrong input message SumControl\n"; //throw "Wrong input message #2";
-
-	cout << "sum2: " << (int)sum << " | " << (int)SumControl(decode) << endl;
-	cout << "one2: " << (int)ones << " | " << (int)BitCounter(decode,1) << endl;
 
 	return decode;
 }

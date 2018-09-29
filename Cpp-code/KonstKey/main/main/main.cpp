@@ -25,16 +25,12 @@ int main()
 
 	//string text = "ash512";
     //string cezar = Cezar3D_Encrypt(text,c3d::KEYTAB);
-    
 	//string decode = Cezar3D_Decrypt(cezar, c3d::KEYTAB);
 	//cout << "text: " << text << "\ncezar: " << cezar<<"\ndecrypt: "<<decode<<"\n";
 
 
 	string gogo = iCezar3D_Encrypt("abcadlo", c3d::KEYTAB, 10);
-
-
 	string gogo2 = iCezar3D_Decrypt(gogo, c3d::KEYTAB, 10);
-
 	cout << "abcadlo\n" << gogo << "\n" << gogo2 << endl;
 	
 	cout << "FIN" << endl;
