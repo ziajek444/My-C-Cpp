@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include <iostream>
 #include <string>
+
 using namespace std;
 
 uint8_t BitCounter(unsigned char,const short);
@@ -67,7 +68,6 @@ uint8_t BitCounter(string s, const short type = 1)
 	return sum;
 }
 
-
 uint8_t SumControl(string s)
 {
 	uint8_t sum = 0;
@@ -77,3 +77,4 @@ uint8_t SumControl(string s)
 	}
 	return sum;
 }
+

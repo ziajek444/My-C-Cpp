@@ -75,6 +75,7 @@ string iCezar3D_Decrypt(string const &msg_in, char const tab_in[c3d::signs][c3d:
 
 
 //Add one byte in the begining as start byte, repleace all left bytes form bytes in tables dependency from pervious byte.
+/// Use that function to average Cezar encrypt // TEXT TO C3D
 string Cezar3D_Encrypt(string const &msg_in,char const tab_in[c3d::signs][c3d::signs *2])
 {
 	for(int i =0;i< c3d::signs;i++)
@@ -431,7 +432,7 @@ string Cezar3D_Encrypt(string const &msg_in,char const tab_in[c3d::signs][c3d::s
 	return msg_out;
 }
 
-
+/// Use that function to average Cezar decrypt // C3D TO TEXT
 string Cezar3D_Decrypt(string const &msg_in,char const tab_in[c3d::signs][c3d::signs * 2])
 {
 	int tab_index = 0; 
@@ -944,7 +945,7 @@ string Cezar3D_Decrypt(string const &msg_in,char const tab_in[c3d::signs][c3d::s
 	return msg_out;
 }
 
-
+/// Use that function to Cezar encrypt with using ConstKey // improved TEXT TO C3D
 string iCezar3D_Encrypt(string const &msg_in, char const tab_in[c3d::signs][c3d::signs * 2],const int from)
 {
 	int t = from;
@@ -964,7 +965,7 @@ string iCezar3D_Encrypt(string const &msg_in, char const tab_in[c3d::signs][c3d:
 	return encode;
 }
 
-
+/// Use that function to Cezar decrypt with using ConstKey // improved C3D TO TEXT
 string iCezar3D_Decrypt(string const &msg_in, char const tab_in[c3d::signs][c3d::signs * 2],const int from)
 {
 	int t = from;
