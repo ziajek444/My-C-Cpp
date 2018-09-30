@@ -1,6 +1,6 @@
 // KonstKey.cpp : Defines the entry point for the console application.
 //
-#include "stdafx.h"
+//#include "stdafx.h"
 //#include "pch.h"
 #include <iostream>
 #include <stdlib.h>     /* srand, rand */
@@ -12,6 +12,7 @@
 #include "VarKey.h"
 #include "Cezar3d.h"
 #include "CriptFeatures.h"
+#include "TextC3D.h"
 
 #ifndef __uint8_t
 typedef unsigned char uint8_t;
@@ -22,65 +23,39 @@ using namespace std;
 
 int main()
 {
-    cout << "Hello world!" << endl;
-/*
-    uint8_t wiadomosc[] = "alba";
-	uint8_t * U;
-    U = ConstKey(1,128);
-	uint8_t s = (128-1)+1;
-	for(int i=0;i<s;i++) cout<<i<<": ["<<(int)U[i]<<"]\n";
-	for(int i=0;i<s;i++) cout<<"["<<U[i]<<"]";
-	cout<<endl;
-	delete U;
 
-	//tworzenie randomowych liczb ktï¿½re bedï¿½ parametrami "123.234.45.6.456"
-	//dodaï¿½ sumï¿½ kontrolnï¿½ "123.234.45.6.456.99"
-	//dodac znaki konczï¿½ce (wypelniajace braki) ï¿½eby wiadomosc zawsze miala stala dï¿½ugoï¿½ï¿½
-	//zapisanie ich jako Cezar 3D (Cezar->znak+x) (Cezar tablicowy->[znak1 to znak2][znak2 to znak3][znakN to znak(N+1) ] )
-	// (Cezar macierzowy -> znak1 to znak2 lub znak3 lub znak4 ...)
-	// Cezar 3D to Cezar macierzowy dla pierwszego znaku, CM->znak1, na podstawie wyboru znaku zastï¿½pczego dla nastï¿½pnego znaku rozkodowywanego
-	// wybierana jest kolejna inna macierz wyboru dla znakï¿½w.
-	//naï¿½oï¿½yï¿½ klucz statyczny (ConstKey)
-	//Gotowe mozna wysylac
-	//sprawdzic czy wiadomosc ma odp. dï¿½ugoï¿½ï¿½.
-	//sciï¿½gnï¿½ï¿½ klucz ststyczny ~(ConstKey)
-	//rozszyfrowac cezara (Cezar 3D moï¿½na debugowaï¿½, sprawdziï¿½ czy nastï¿½pny znak jest w ogï¿½le dopuszczalny)
-	// kaï¿½dy znak a:z i 0:9 i # to 38 znakï¿½w. mogï¿½ mieï¿½ maksymalnie 6 moï¿½liwoï¿½ci i 0 oraz 255 sï¿½ zakazane.
-	//sprawdzic poprawnosc wiadomosci: czy sï¿½ wszystkie paramtetry, czy majï¿½ odpowiedni rozmiar, czy sï¿½ same liczby i #, czy jest suma kontrolna
-	//zsumowac wiadomosc i porï¿½wnac z suma kontrolnï¿½
-	//jezeli wszystko przebiegï¿½o bez bï¿½ï¿½dï¿½w stworzyc klucz na podstawie parametrow podanych w wiadomosci
-
-	char KEYTAB_own[39][39 * 2];
-	for (int i = 0; i < 39; i++) MakeTableUnique(KEYTAB_own[i], 39 * 2);
-
-	string heja;
-	heja = Cezar3D_Encrypt("abcdd",c3d::KEYTAB);
-	cout<<heja<<"\n";
-	string ho;
-	ho = Cezar3D_Decrypt(heja, c3d::KEYTAB);
-	cout<<ho<<"\n";
-
-	char tab2[20];
-	MakeTableUnique(tab2, 254);
-	cout << endl;
-	for (int i = 0; i < 254; i++) cout << "{" << (unsigned short)(tab2[i]&0xFF) << "}";
-	cout << "\n\nhere: " << IsTableUnique(tab2, 254) << endl; */
+	//string text = "ash512";
+    //string cezar = Cezar3D_Encrypt(text,c3d::KEYTAB);
+	//string decode = Cezar3D_Decrypt(cezar, c3d::KEYTAB);
+	//cout << "text: " << text << "\ncezar: " << cezar<<"\ndecrypt: "<<decode<<"\n";
 
 
-	string text = "ash512";
-    string cezar = Cezar3D_Encrypt(text,c3d::KEYTAB);
-    
-	string decode = Cezar3D_Decrypt(cezar, c3d::KEYTAB);
-	cout << "text: " << text << "\ncezar: " << cezar<<"\ndecrypt: "<<decode<<"\n";
-
-	uint8_t *able;
-	able = new uint8_t[2];
-	able[0] = 0x01;
-	able[1] = 0x10;
-	uint8_t sum = 0;
-	uint8_t mask = 1;
-	cout << (int)BitCounter(able,2,0) << endl;
+	//string gogo = iCezar3D_Encrypt("abcadlo", c3d::KEYTAB, 10);
+	//string gogo2 = iCezar3D_Decrypt(gogo, c3d::KEYTAB, 10);
+	//cout << "abcadlo\n" << gogo << "\n" << gogo2 << endl;
 	
+	//string TEST = textToC3D("< > : 0 1 2 3 <3 d ¹ i");
+	//cout << "< > : 0 1 2 3 <3 d ¹ i : " << TEST << endl;
+
+	//cout << "Ambrerro hu³a³a i mam te¿ ¹ :D #$%^&*()\n";
+	//string TEST1 = textToC3D("Ambrerro hu³a³a i mam te¿ ¹ :D #$%^&*()");
+	//cout << TEST1 << "\n";
+	//string TEST2 = c3dToText(TEST1);
+	//cout << TEST2 << endl;
+
+	cout << "Tajny tekst haha !@# .\n";
+	string TEST1 = itextToC3D("Tajny tekst haha !@# .");
+	cout << TEST1 << "\n";
+	cout << "\n";
+	string TEST2 = ic3dToText(TEST1);
+	cout << TEST2 << "\n";
+
+	cout<<"First parameters updated: "<<FirstParameters() << endl;
+
+	//wyglad jak bym skonczyl :D
+
+
+	cout << "FIN" << endl;
 
 	cin.get();
     return 0;

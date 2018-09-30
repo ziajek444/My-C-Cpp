@@ -15,7 +15,9 @@ typedef unsigned char uint8_t;
 
 using namespace std;
 
-//string FirstParameters();
+string FirstParameters();
+char RandomNotNumber(); 
+//
 
 string FirstParameters()
 {
@@ -35,37 +37,46 @@ string FirstParameters()
 
 	p1 = rand() % 100 + 1;
 
-	string ret_str = "#";
+	string ret_str = "";
+	ret_str += RandomNotNumber();
 	ret_str += std::to_string(p1);
 
 	p2 = rand() % 100 + 1;
 
-	ret_str += '#';
+	ret_str += RandomNotNumber();
 	ret_str += std::to_string(p2);
 
 	p3 = rand() % 100 + 1;
 
-	ret_str += '#';
+	ret_str += RandomNotNumber();
 	ret_str += std::to_string(p3);
 
 	tconst = rand() % 100 + 1;
 
-	ret_str += '#';
+	ret_str += RandomNotNumber();
 	ret_str += std::to_string(tconst);
 
 	tvar = rand() % 100 + 1;
 
-	ret_str += '#';
+	ret_str += RandomNotNumber();
 	ret_str += std::to_string(tvar);
 
 	offset = rand() % 100 + 1;
 
-	ret_str += '#';
+	ret_str += RandomNotNumber();
 	ret_str += std::to_string(offset);
 
-	ret_str += '#';
+	ret_str += RandomNotNumber();
 
 	return ret_str;
+}
+
+char RandomNotNumber()
+{
+	random_device rd;
+	char sign = rd();
+	while(!((sign >= '!' && sign<='/') || (sign >= ':' && sign <= '~'))) sign = (rd()&0xFF);
+	return sign;
 }
 
 #endif _VARKEY_H_

@@ -1,5 +1,5 @@
 ﻿  main.cpp
-c:\users\pracownik\desktop\c plusz plusz\programy c_cpp\nowy folder\my-c-cpp\cpp-code\konstkey\main\main\criptfeatures.h(74): warning C4018: '<': signed/unsigned mismatch
-c:\users\pracownik\desktop\c plusz plusz\programy c_cpp\nowy folder\my-c-cpp\cpp-code\konstkey\main\main\cezar3d.h(65): warning C4838: conversion from 'unsigned char' to 'const char' requires a narrowing conversion
-c:\users\pracownik\desktop\c plusz plusz\programy c_cpp\nowy folder\my-c-cpp\cpp-code\konstkey\main\main\textc3d.h(25): warning C4018: '<': signed/unsigned mismatch
-  main.vcxproj -> C:\Users\Pracownik\Desktop\c plusz plusz\programy c_cpp\Nowy folder\My-C-Cpp\Cpp-code\KonstKey\main\Debug\main.exe
+d:\dysk google ziajkowski.marcin@gmail.com\gitrepozytory\my-c-cpp\cpp-code\konstkey\main\main\criptfeatures.h(74): warning C4018: '<': signed/unsigned mismatch
+d:\dysk google ziajkowski.marcin@gmail.com\gitrepozytory\my-c-cpp\cpp-code\konstkey\main\main\cezar3d.h(65): warning C4838: conversion from 'unsigned char' to 'const char' requires a narrowing conversion
+d:\dysk google ziajkowski.marcin@gmail.com\gitrepozytory\my-c-cpp\cpp-code\konstkey\main\main\textc3d.h(25): warning C4018: '<': signed/unsigned mismatch
+  main.vcxproj -> D:\Dysk Google ziajkowski.marcin@gmail.com\GITREPOZYTORY\My-C-Cpp\Cpp-code\KonstKey\main\Debug\main.exe

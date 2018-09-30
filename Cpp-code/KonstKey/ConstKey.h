@@ -18,10 +18,6 @@ typedef unsigned char uint8_t;
 
 using namespace std;
 
-//uint8_t * ConstKey(int,int);
-//uint8_t functionCK(int);
-//int silnia (int);
-
 int silnia (int liczba)
 {
     if (liczba<2) return liczba;
@@ -45,7 +41,6 @@ uint8_t functionCK(int t)
 
     return ret==0 ? ret-1 : ret;
 }
-
 
 uint8_t * ConstKey(int start,int stop)
 {

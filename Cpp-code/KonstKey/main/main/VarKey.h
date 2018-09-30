@@ -17,6 +17,7 @@ using namespace std;
 
 string FirstParameters();
 char RandomNotNumber(); 
+bool IsNumber(const char);
 //
 
 string FirstParameters()
@@ -77,6 +78,47 @@ char RandomNotNumber()
 	char sign = rd();
 	while(!((sign >= '!' && sign<='/') || (sign >= ':' && sign <= '~'))) sign = (rd()&0xFF);
 	return sign;
+}
+
+int* GetParametersTab(string parameters)
+{
+	int * param = new int[6];
+	string number = "";
+	//memset(tab, 0, sizeof(string)*6);
+	// construction: 
+	// p1 <1,100>
+	// p2 <2,10>
+	// p3 <1,1000>
+	// tconst <1,100>
+	// tvar <1,unsigned int - 1>
+	// offset <1,100>
+	// R - not number random,
+	// R p1 R p2 R p3 R tconst R tvar R offset R // (without spaces) !!
+
+	// test if 1st char is not a number 
+	// test if 2nd char in number, schould be
+	if (IsNumber(parameters[0]) || !IsNumber(parameters[1])) cout<<"Wrong parameters string\n";//throw "Wrong parameters string";
+	int index = 1;
+	for (int i=0;i<6;i++)
+	{
+		while( IsNumber(parameters[index]) ) number += static_cast<char>(parameters[index++]);
+		if (number.length()) param[i] = atoi(number.c_str());
+		else --i;
+		//std::cout << number << std::endl;
+		cout << "there is fakap" << endl;
+		number = "";
+		
+	}
+
+	int address =  reinterpret_cast<int>(param);
+	delete[] param;
+	return reinterpret_cast<int*>(address);
+}
+
+bool IsNumber(const char in)
+{
+	if (in >= '0' && in <= '9') return 1;
+	else return 0;
 }
 
 #endif _VARKEY_H_
