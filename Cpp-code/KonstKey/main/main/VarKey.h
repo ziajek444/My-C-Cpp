@@ -103,16 +103,18 @@ int* GetParametersTab(string parameters)
 	{
 		while( IsNumber(parameters[index]) ) number += static_cast<char>(parameters[index++]);
 		if (number.length()) param[i] = atoi(number.c_str());
-		else --i;
+		//else --i;
 		//std::cout << number << std::endl;
-		cout << "there is fakap" << endl;
+		//cout << "there is fakap" << endl;
+		index++;
 		number = "";
 		
 	}
 
-	int address =  reinterpret_cast<int>(param);
-	delete[] param;
-	return reinterpret_cast<int*>(address);
+	//int address =  reinterpret_cast<int>(param);
+	//delete[] param;
+	//return reinterpret_cast<int*>(address);
+	return param;
 }
 
 bool IsNumber(const char in)

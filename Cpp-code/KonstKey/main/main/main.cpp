@@ -50,10 +50,11 @@ int main()
 	string TEST2 = ic3dToText(TEST1);
 	cout << TEST2 << "\n";
 	string eppa = FirstParameters();
-	cout<<"First parameters updated: "<<FirstParameters() << endl;
+	cout<<"First parameters updated: "<< eppa << endl;
 
 	int *tab = GetParametersTab(eppa);
-	for (int i=0;i<<6;i++)
+	cout << "odzyskane parametry: " << endl;
+	for (int i=0;i<6;i++)
 	{
 		cout << tab[i] << endl;
 	}
