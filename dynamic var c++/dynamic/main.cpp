@@ -6,6 +6,8 @@
 #include <string.h>
 #include <stdint.h>
 
+
+
 #define TYPE(x) typeid(x).name()
 
 
@@ -18,15 +20,42 @@ void println(const Type p);
 
 class DataTable
 {
+public:
 	std::string * _data_table;
-	explicit DataTable() : _data_table(new std::string[5]) {
+	int arr_size;
+	explicit DataTable() : _data_table(new std::string[24]),arr_size(24) {
 		int index = 0;
-		_data_table[index++] = " ";
-		_data_table[index++] = " ";
-		_data_table[index++] = " ";
-		_data_table[index++] = " ";
-		_data_table[index++] = " ";
-		_data_table[index++] = " ";
+		_data_table[index++] = "void"; // 0
+		_data_table[index++] = "void *";
+		_data_table[index++] = "unsigned short"; // 2
+		_data_table[index++] = "unsigned short *";
+		_data_table[index++] = "short";// 4
+		_data_table[index++] = "short *";
+		_data_table[index++] = "unsigned char"; // 6
+		_data_table[index++] = "unsigned char *";
+		_data_table[index++] = "signed char"; // 8
+		_data_table[index++] = "signed char *";
+		_data_table[index++] = "char";//10
+		_data_table[index++] = "char *";
+		_data_table[index++] = "unsigned long";//12
+		_data_table[index++] = "unsigned long *";
+		_data_table[index++] = "long";//14
+		_data_table[index++] = "long *";
+		_data_table[index++] = "unsigned __int64";// 16
+		_data_table[index++] = "unsigned __int64 *";
+		_data_table[index++] = "__int64";// 18
+		_data_table[index++] = "__int64 *";
+		_data_table[index++] = "int"; // 20
+		_data_table[index++] = "int *";
+		_data_table[index++] = "class std::basic_string<char, struct std::char_traits<char>, class std::allocator<char> >"; // 22
+		_data_table[index++] = "class std::basic_string<char, struct std::char_traits<char>, class std::allocator<char> > *";
+
+		//_data_table[index++] = "";
+	}
+
+	std::string operator[] (int index)
+	{
+		return _data_table[index];
 	}
 
 	virtual ~DataTable()
@@ -42,18 +71,17 @@ public:
 
 	uint8_t * pointer;
 	bool initialized;
-	int var_size;
+	int var_size=0;
 	int item_size;
 	std::type_index data_type;
 
-
-	explicit dynamic() : initialized(false), data_type(typeid(void))
+	dynamic() : initialized(false), data_type(typeid(void))
 	{
 		this->ID += 1;
 		this->self_ID = this->ID;
 	}
 
-	dynamic (const dynamic& D) : initialized(false), data_type(typeid(void))
+	explicit dynamic(const dynamic& D) : initialized(false), data_type(typeid(void))
 	{
 		if (D.initialized)
 		{
@@ -69,7 +97,20 @@ public:
 		this->data_type = D.data_type;
 		this->ID += 1;
 		this->self_ID = this->ID;
-		
+	}
+
+	template <class Tymbark>
+	explicit dynamic(const Tymbark& input) : initialized(false), data_type(typeid(void))
+	{
+		this->var_size = sizeof(input);
+		this->item_size = sizeof(Tymbark);
+
+		pointer = new Tymbark[this->var_size/ this->item_size];
+				
+		this->initialized = true;
+		this->data_type = typeid(Tymbark);
+		this->ID += 1;
+		this->self_ID = this->ID;
 	}
 
 	int getID()
@@ -78,7 +119,7 @@ public:
 	}
 
 	template <class Temp>
-	dynamic & operator =(const Temp & x)
+	dynamic & operator= (const Temp & x)
 	{
 		this->var_size = sizeof(x);
 		this->item_size = sizeof(Temp);
@@ -93,7 +134,7 @@ public:
 		{
 			*(Temp*)(this->pointer) = x;
 		}
-		else if(this->initialized)
+		else if (this->initialized)
 		{
 			this->data_type = typeid(Temp);
 
@@ -163,12 +204,12 @@ public:
 		return *this;
 	}
 
-	
-	//friend std::ostream & operator<< (std::ostream & out, const dynamic & am);
+
+	friend std::ostream & operator<< (std::ostream & out, const dynamic & am);
 
 
 	virtual ~dynamic() {
-		
+
 		if (this->initialized && (var_size == item_size))
 		{
 			delete pointer;
@@ -190,7 +231,7 @@ public:
 		print("dynamic ");
 		print(this->self_ID);
 		println(" destroyed");
-			
+
 	}
 
 private:
@@ -206,7 +247,6 @@ private:
 int main()
 {
 	println("hejeczka");
-	//println(TYPE(int));
 	int rozm = sizeof(dynamic);
 
 	dynamic d1;
@@ -214,639 +254,11 @@ int main()
 	d1 = rozm;
 	d2 = '4';
 
-	//std::cout << d1 << std::endl;
-	//std::cout << d2 << std::endl;
-
-	
-	std::type_index tmp_data_type = std::type_index(typeid(void));
-	println(tmp_data_type.name());
-
-	tmp_data_type = std::type_index(typeid(void*));
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(void**));
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(void***));
-	println(tmp_data_type.name());
-
-	tmp_data_type = std::type_index(typeid(int));
-	print("int: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(int*));
-	print("int*: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(int**));
-	print("int**: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(int***));
-	print("int***: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(int&));
-	print("int&: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(int&&));
-	print("int&&: ");
-	println(tmp_data_type.name());
-
-	tmp_data_type = std::type_index(typeid(unsigned int));
-	print("unsigned int: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(unsigned int*));
-	print("unsigned int*: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(unsigned int**));
-	print("unsigned int**: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(unsigned int***));
-	print("unsigned int***: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(unsigned int&));
-	print("unsigned int&: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(unsigned int&&));
-	print("unsigned int&&: ");
-	println(tmp_data_type.name());
-
-	tmp_data_type = std::type_index(typeid(signed int));
-	print("signed int: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(signed int*));
-	print("signed int*: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(signed int**));
-	print("signed int**: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(signed int***));
-	print("signed int***: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(signed int&));
-	print("signed int&: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(signed int&&));
-	print("signed int&&: ");
-	println(tmp_data_type.name());
-
-	tmp_data_type = std::type_index(typeid(short unsigned int));
-	print("short unsigned int: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(short unsigned int*));
-	print("short unsigned int*: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(short unsigned int**));
-	print("short unsigned int**: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(short unsigned int***));
-	print("short unsigned int***: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(short unsigned int&));
-	print("short unsigned int&: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(short unsigned int&&));
-	print("short unsigned int&&: ");
-	println(tmp_data_type.name());
-	
-	tmp_data_type = std::type_index(typeid(short int));
-	print("short int: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(short int*));
-	print("short int*: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(short int**));
-	print("short int**: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(short int***));
-	print("short int***: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(short int&));
-	print("short int&: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(short int&&));
-	print("short int&&: ");
-	println(tmp_data_type.name());
-	
-	tmp_data_type = std::type_index(typeid(short));
-	print("short: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(short*));
-	print("short*: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(short**));
-	print("short**: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(short***));
-	print("short***: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(short&));
-	print("short&: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(short&&));
-	print("short&&: ");
-	println(tmp_data_type.name());
-
-	tmp_data_type = std::type_index(typeid(short unsigned));
-	print("short unsigned: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(short unsigned*));
-	print("short unsigned*: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(short unsigned**));
-	print("short unsigned**: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(short unsigned***));
-	print("short unsigned***: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(short unsigned&));
-	print("short unsigned&: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(short unsigned&&));
-	print("short unsigned&&: ");
-	println(tmp_data_type.name());
-
-	//------------- long ---------------------
-
-	tmp_data_type = std::type_index(typeid(long unsigned int));
-	print("long unsigned int: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(long unsigned int*));
-	print("long unsigned int*: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(long unsigned int**));
-	print("long unsigned int**: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(long unsigned int***));
-	print("long unsigned int***: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(long unsigned int&));
-	print("long unsigned int&: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(long unsigned int&&));
-	print("long unsigned int&&: ");
-	println(tmp_data_type.name());
-
-	tmp_data_type = std::type_index(typeid(long int));
-	print("long int: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(long int*));
-	print("long int*: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(long int**));
-	print("long int**: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(long int***));
-	print("long int***: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(long int&));
-	print("long int&: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(long int&&));
-	print("long int&&: ");
-	println(tmp_data_type.name());
-
-	tmp_data_type = std::type_index(typeid(long));
-	print("long: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(long*));
-	print("long*: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(long**));
-	print("long**: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(long***));
-	print("long***: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(long&));
-	print("long&: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(long&&));
-	print("long&&: ");
-	println(tmp_data_type.name());
-
-	tmp_data_type = std::type_index(typeid(long unsigned));
-	print("long unsigned: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(long unsigned*));
-	print("long unsigned*: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(long unsigned**));
-	print("long unsigned**: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(long unsigned***));
-	print("long unsigned***: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(long unsigned&));
-	print("long unsigned&: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(long unsigned&&));
-	print("long unsigned&&: ");
-	println(tmp_data_type.name());
-
-	// ----------------- long long ---------------------
-
-
-	tmp_data_type = std::type_index(typeid(long long unsigned int));
-	print("long long unsigned int: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(long long unsigned int*));
-	print("long long unsigned int*: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(long long unsigned int**));
-	print("long long unsigned int**: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(long long unsigned int***));
-	print("long long unsigned int***: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(long long unsigned int&));
-	print("long long unsigned int&: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(long long unsigned int&&));
-	print("long long unsigned int&&: ");
-	println(tmp_data_type.name());
-
-	tmp_data_type = std::type_index(typeid(long long int));
-	print("long long int: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(long long int*));
-	print("long long int*: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(long long int**));
-	print("long long int**: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(long long int***));
-	print("long long int***: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(long long int&));
-	print("long long int&: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(long long int&&));
-	print("long long int&&: ");
-	println(tmp_data_type.name());
-
-	tmp_data_type = std::type_index(typeid(long long));
-	print("long long: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(long long*));
-	print("long long*: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(long long**));
-	print("long long**: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(long long***));
-	print("long long***: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(long long&));
-	print("long long&: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(long long&&));
-	print("long long&&: ");
-	println(tmp_data_type.name());
-
-	tmp_data_type = std::type_index(typeid(long long unsigned));
-	print("long long unsigned: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(long long unsigned*));
-	print("long long unsigned*: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(long long unsigned**));
-	print("long long unsigned**: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(long long unsigned***));
-	print("long long unsigned***: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(long long unsigned&));
-	print("long long unsigned&: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(long long unsigned&&));
-	print("long long unsigned&&: ");
-	println(tmp_data_type.name());
-
-	// ----------------- __int8 --------------------------
-	
-	tmp_data_type = std::type_index(typeid(__int8 unsigned));
-	print("__int8 unsigned: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(__int8 unsigned*));
-	print("__int8 unsigned*: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(__int8 unsigned**));
-	print("__int8 unsigned**: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(__int8 unsigned***));
-	print("__int8 unsigned***: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(__int8 unsigned&));
-	print("__int8 unsigned&: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(__int8 unsigned&&));
-	print("__int8 unsigned&&: ");
-	println(tmp_data_type.name());
-
-	tmp_data_type = std::type_index(typeid(__int8 signed));
-	print("__int8 signed: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(__int8 signed*));
-	print("__int8 signed*: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(__int8 signed**));
-	print("__int8 signed**: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(__int8 signed***));
-	print("__int8 signed***: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(__int8 signed&));
-	print("__int8 signed&: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(__int8 signed&&));
-	print("__int8 signed&&: ");
-	println(tmp_data_type.name());
-
-	tmp_data_type = std::type_index(typeid(__int8));
-	print("__int8: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(__int8*));
-	print("__int8*: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(__int8**));
-	print("__int8**: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(__int8***));
-	print("__int8***: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(__int8&));
-	print("__int8&: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(__int8&&));
-	print("__int8&&: ");
-	println(tmp_data_type.name());
-
-
-	// ----------------- __int16 --------------------------
-
-	tmp_data_type = std::type_index(typeid(__int16 unsigned));
-	print("__int16 unsigned: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(__int16 unsigned*));
-	print("__int16 unsigned*: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(__int16 unsigned**));
-	print("__int16 unsigned**: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(__int16 unsigned***));
-	print("__int16 unsigned***: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(__int16 unsigned&));
-	print("__int16 unsigned&: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(__int16 unsigned&&));
-	print("__int16 unsigned&&: ");
-	println(tmp_data_type.name());
-
-	tmp_data_type = std::type_index(typeid(__int16 signed));
-	print("__int16 signed: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(__int16 signed*));
-	print("__int16 signed*: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(__int16 signed**));
-	print("__int16 signed**: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(__int16 signed***));
-	print("__int16 signed***: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(__int16 signed&));
-	print("__int16 signed&: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(__int16 signed&&));
-	print("__int16 signed&&: ");
-	println(tmp_data_type.name());
-
-	tmp_data_type = std::type_index(typeid(__int16));
-	print("__int16: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(__int16*));
-	print("__int16*: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(__int16**));
-	print("__int16**: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(__int16***));
-	print("__int16***: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(__int16&));
-	print("__int16&: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(__int16&&));
-	print("__int16&&: ");
-	println(tmp_data_type.name());
-
-	// ----------------- __int32 --------------------------
-
-	tmp_data_type = std::type_index(typeid(__int32 unsigned));
-	print("__int32 unsigned: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(__int32 unsigned*));
-	print("__int32 unsigned*: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(__int32 unsigned**));
-	print("__int32 unsigned**: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(__int32 unsigned***));
-	print("__int32 unsigned***: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(__int32 unsigned&));
-	print("__int32 unsigned&: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(__int32 unsigned&&));
-	print("__int32 unsigned&&: ");
-	println(tmp_data_type.name());
-
-	tmp_data_type = std::type_index(typeid(__int32 signed));
-	print("__int32 signed: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(__int32 signed*));
-	print("__int32 signed*: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(__int32 signed**));
-	print("__int32 signed**: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(__int32 signed***));
-	print("__int32 signed***: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(__int32 signed&));
-	print("__int32 signed&: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(__int32 signed&&));
-	print("__int32 signed&&: ");
-	println(tmp_data_type.name());
-
-	tmp_data_type = std::type_index(typeid(__int32));
-	print("__int32: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(__int32*));
-	print("__int32*: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(__int32**));
-	print("__int32**: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(__int32***));
-	print("__int32***: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(__int32&));
-	print("__int32&: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(__int32&&));
-	print("__int32&&: ");
-	println(tmp_data_type.name());
-	
-	// ----------------- __int64 --------------------------
-
-	tmp_data_type = std::type_index(typeid(__int64 unsigned));
-	print("__int64 unsigned: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(__int64 unsigned*));
-	print("__int64 unsigned*: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(__int64 unsigned**));
-	print("__int64 unsigned**: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(__int64 unsigned***));
-	print("__int64 unsigned***: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(__int64 unsigned&));
-	print("__int64 unsigned&: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(__int64 unsigned&&));
-	print("__int64 unsigned&&: ");
-	println(tmp_data_type.name());
-
-	tmp_data_type = std::type_index(typeid(__int64 signed));
-	print("__int64 signed: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(__int64 signed*));
-	print("__int64 signed*: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(__int64 signed**));
-	print("__int64 signed**: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(__int64 signed***));
-	print("__int64 signed***: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(__int64 signed&));
-	print("__int64 signed&: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(__int64 signed&&));
-	print("__int64 signed&&: ");
-	println(tmp_data_type.name());
-
-	tmp_data_type = std::type_index(typeid(__int64));
-	print("__int64: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(__int64*));
-	print("__int64*: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(__int64**));
-	print("__int64**: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(__int64***));
-	print("__int64***: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(__int64&));
-	print("__int64&: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(__int64&&));
-	print("__int64&&: ");
-	println(tmp_data_type.name());
-
-	// ----------------- __int128 --------------------------
-
-	//Error	C2512	'std::type_index': no appropriate default constructor available	Dynamic
-
-	// ----------------- uint8_t --------------------------
-
-
-	tmp_data_type = std::type_index(typeid(uint8_t));
-	print("uint8_t: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(uint8_t*));
-	print("uint8_t*: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(uint8_t**));
-	print("uint8_t**: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(uint8_t***));
-	print("uint8_t***: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(uint8_t&));
-	print("uint8_t&: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(uint8_t&&));
-	print("uint8_t&&: ");
-	println(tmp_data_type.name());
-
-	// ----------------- int8_t --------------------------
-
-
-	tmp_data_type = std::type_index(typeid(int8_t));
-	print("int8_t: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(int8_t*));
-	print("int8_t*: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(int8_t**));
-	print("int8_t**: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(int8_t***));
-	print("int8_t***: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(int8_t&));
-	print("int8_t&: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(int8_t&&));
-	print("int8_t&&: ");
-	println(tmp_data_type.name());
-
-	// ----------------- uint16_t --------------------------
-
-
-	tmp_data_type = std::type_index(typeid(uint16_t));
-	print("uint16_t: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(uint16_t*));
-	print("uint16_t*: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(uint16_t**));
-	print("uint16_t**: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(uint16_t***));
-	print("uint16_t***: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(uint16_t&));
-	print("uint16_t&: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(uint16_t&&));
-	print("uint16_t&&: ");
-	println(tmp_data_type.name());
-
-	// ----------------- int16_t --------------------------
-
-
-	tmp_data_type = std::type_index(typeid(int16_t));
-	print("int16_t: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(int16_t*));
-	print("int16_t*: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(int16_t**));
-	print("int16_t**: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(int16_t***));
-	print("int16_t***: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(int16_t&));
-	print("int16_t&: ");
-	println(tmp_data_type.name());
-	tmp_data_type = std::type_index(typeid(int16_t&&));
-	print("int16_t&&: ");
-	println(tmp_data_type.name());
-	
+	std::cout << rozm << std::endl;
+	std::cout << d1 << std::endl;
+	std::cout << d2 << std::endl;
+	d2 = "jakis tam tekst";
+	std::cout << d2 << std::endl;
 
 	std::cin.get();
 	return 0;
@@ -855,38 +267,122 @@ int main()
 
 //------------------------------------------------- body
 
-/*
+
 std::ostream & operator<< (std::ostream & out, const dynamic & am)
 {
 	std::type_index tmp_data_type = am.data_type;
+	std::string tmp_string = tmp_data_type.name();
+	DataTable DT;
+	int index = -1;
+
+	for (int i = 0; i < DT.arr_size; ++i)
+	{
+		if (!(  strcmp( DT[i].c_str(), tmp_string.c_str() )  ))
+		{
+			index = i;
+			break;
+		}
+	}
 
 	if (am.pointer != nullptr)
 	{
-		switch (tmp_data_type.hash_code())
+		switch (index)
 		{
-			case typeid(int).hash_code():
+			case 2:
+			case 4:
 			{
-				int tmp = (int)(*(int*)(am.pointer));
-				out << tmp << " id: " << am.self_ID;
+				short tmp = (short)(*(short*)(am.pointer));
+				out << tmp;
 				break;
 			}
-			case 1:
+			case 3:
+			case 5:
 			{
+				short tmp = (short)(*(short*)(am.pointer)[0]);
+				out << tmp;
+				break;
+			}
+			case 6:
+			case 8:
+			case 10:
+			{
+				char tmp = (char)(*(char*)(am.pointer));
+				out << tmp;
+				break;
+			}
+			case 7:
+			case 9:
+			case 11:
+			{
+				char tmp = (char)(*(char*)(am.pointer)[0]);
+				out << tmp;
+				break;
+			}
+			case 12:
+			case 14:
+			{
+				long tmp = (long)(*(long*)(am.pointer));
+				out << tmp;
+				break;
+			}
+			case 13:
+			case 15:
+			{
+				long tmp = (long)(*(long*)(am.pointer)[0]);
+				out << tmp;
+				break;
+			}
+			case 16:
+			case 18:
+			{
+				__int64 tmp = (__int64)(*(__int64*)(am.pointer));
+				out << tmp;
+				break;
+			}
+			case 17:
+			case 19:
+			{
+				__int64 tmp = (__int64)(*(__int64*)(am.pointer)[0]);
+				out << tmp;
+				break;
+			}
+			case 20:
+			{
+				int tmp = (int)(*(int*)(am.pointer));
+				out << tmp;
+				break;
+			}
+			case 21:
+			{
+				int tmp = (int)(*(int*)(am.pointer)[0]);
+				out << tmp;
+				break;
+			}
+			case 22:
+			{
+				std::string tmp = (std::string)(*(std::string*)(am.pointer));
+				out << tmp;
+				break;
+			}
+			case 23:
+			{
+				std::string tmp = (std::string)(*(std::string*)(am.pointer)[0]);
+				out << tmp;
 				break;
 			}
 			default:
 			{
-				//for
+				for (int i = 0; i < am.var_size; ++i) {
+					out << (__int8)(*am.pointer);
+				}
 				break;
 			}
 		}
-		
-		//out << (TT)(*(TT*)(am.pointer)) << " id: " << am.self_ID;
 	}
 	else
 		out << "nulptr " << " id: " << am.self_ID;
 	return out;
-}*/
+}
 
 int dynamic::ID = 0;
 
