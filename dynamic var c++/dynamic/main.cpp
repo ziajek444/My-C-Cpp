@@ -5,7 +5,7 @@
 #include <string>
 #include <string.h>
 #include <stdint.h>
-
+#include "AbstractClass.h"
 
 
 #define TYPE(x) typeid(x).name()
@@ -243,6 +243,65 @@ private:
 
 //------------------------------------------------- main
 
+//----------------help
+template <class T>
+T my_max(T a, T b)
+{
+	if (a > b)
+		return a;
+	else
+		return b;
+}
+template <class classT>
+class D
+{
+public:
+	D(classT in)
+		: d(in) {};
+
+	bool operator>(const D& rhs) const {
+		return (d > rhs.d);
+	}
+
+	classT operator=(const D<classT>& rhs)
+	{
+
+	}
+
+	friend std::ostream& operator<< (std::ostream & os, const D& rhs) {
+		os << rhs.d;
+		return os;
+	}
+
+private:
+	classT d;
+};
+
+//-------------help
+//help2
+template <class classT>
+class Duzo
+{
+public:
+	Duzo(classT in)
+		: d(in) {};
+	bool operator>(const Duzo& rhs) const { return d > rhs.d; };
+	classT operator=(const Duzo<classT>& rhs)
+	{
+
+	}
+
+	template<class classT> friend std::ostream& operator<< (std::ostream & os, const Duzo<classT>& rhs);
+private:
+	classT d;
+};
+
+template<class classT> std::ostream& operator<<(std::ostream& os, class Duzo<typename classT> const& rhs)
+{
+	os << rhs.d;
+	return os;
+}
+//help2
 
 int main()
 {
@@ -257,8 +316,26 @@ int main()
 	std::cout << rozm << std::endl;
 	std::cout << d1 << std::endl;
 	std::cout << d2 << std::endl;
-	d2 = "jakis tam tekst";
-	std::cout << d2 << std::endl;
+	AbstractClass * hard;
+
+	BackPack<char> B('a');
+	//std::cout << B << std::endl;
+
+	//--help
+	int i1 = 1;
+	int i2 = 2;
+	D<int> dh1(i1);
+	D<int> dh2(i2);
+
+	std::cout << my_max(dh1, dh2) << std::endl;
+	std::cout <<"helper: "<< dh1 << std::endl;
+	//--help
+	//help2
+	int i3 = 1;
+	Duzo<int> zdeczko(i3);
+
+	std::cout << "helper 2: " << zdeczko << std::endl;
+	//help2
 
 	std::cin.get();
 	return 0;
