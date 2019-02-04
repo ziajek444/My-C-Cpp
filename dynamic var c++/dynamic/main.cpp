@@ -256,8 +256,12 @@ template <class classT>
 class D
 {
 public:
+	AbstractClass * AC;
+public:
 	D(classT in)
-		: d(in) {};
+		: d(in) {
+		AC = new BackPack<classT>(in);
+	};
 
 	/*bool operator>(const D& rhs) const {
 		return (d > rhs.d);
@@ -268,12 +272,17 @@ public:
 
 	}*/
 
-
-	friend std::ostream& operator<< (std::ostream & os, const D& rhs) {
-		os << rhs.d;
+	template<class classT>
+	friend std::ostream& operator<< (std::ostream & os, const D<classT>& rhs) {
+		//os << rhs.d;
+		os << "zagadka nie jadka: " << *(dynamic_cast<BackPack<classT>*>(rhs.AC));
 		return os;
 	}
-
+public:
+	~D()
+	{
+		delete AC;
+	}
 private:
 	classT d;
 };
@@ -320,26 +329,32 @@ int main()
 	std::cout << d1 << std::endl;
 	std::cout << d2 << std::endl;
 	AbstractClass * hard;
+	hard = new BackPack<char>('b');
+	std::cout <<"Now here: "<< *(dynamic_cast<BackPack<char>*>(hard)) << std::endl;
 
-	//BackPack<char> B('a');
-	//std::cout << B << std::endl;
-	//std::string kalisz = "monitor";
-	//BackPack<std::string> BB(kalisz);
-	//std::cout << BB << std::endl;
-	//char * kalosz = (char*)"glosnik";
-	//BackPack<char*> BBB(kalosz);
-	//std::cout << BBB << std::endl;
-	//char kubek[] = {'k','u','b','e','k',0};
-	//BackPack<char*> BBBB((char*)kubek);
-	//std::cout << BBBB << std::endl;
-	//char* kiszonka = (char*)"zz";
-	//BackPack<char*> C(kiszonka);
-	//std::cout << C << std::endl;
-	/*char f = 'f';
-	char ** pip = new char*;
-	pip[0] = &f;
-	*(pip[0]) = 'g';
-	println(*(pip[0]));*/
+	BackPack<char> B('a');
+	std::cout << B << std::endl;
+
+	hard = dynamic_cast<BackPack<char>*>(&B);
+	std::cout <<"and here: " << *hard << std::endl;
+
+
+	std::string kalisz = "monitor";
+	BackPack<std::string> BB(kalisz);
+	std::cout << BB << std::endl;
+
+	char * kalosz = (char*)"glosnik";
+	BackPack<char*> BBB(kalosz);
+	std::cout << BBB << std::endl;
+
+	char kubek[] = {'k','u','b','e','k',0};
+	BackPack<char*> BBBB((char*)kubek);
+	std::cout << BBBB << std::endl;
+
+	char* kiszonka = (char*)"zz";
+	BackPack<char*> C(kiszonka);
+	std::cout << C << std::endl;
+	
 
 	//--help
 	int i1 = 1;
