@@ -1,24 +1,48 @@
 #pragma once
 
 #include <iostream>
+#include <string>
+#include <string.h>
 
 class AbstractClass
 {
 public:
-
+	virtual const AbstractClass& getRef() const = 0;
+	virtual ~AbstractClass() {};
 };
 
-template <typename T>
+template <class TtT>
 class BackPack : public AbstractClass
 {
 public:
-	BackPack() : case_pointer((T)0)
+	BackPack() : case_pointer((TtT)0)
 	{
 
 	}
-	BackPack(T value) : case_pointer(value)
+	BackPack(TtT value)
 	{
+		case_pointer = new TtT;
 
+		// HELP
+		/*
+		char f = 'f';
+		char ** pip = new char*;
+		pip[0] = &f;
+		*(pip[0]) = 'g';
+		println(*(pip[0]));
+		*/
+		// HH
+		
+		if (std::string(typeid(TtT).name()).find('*') != std::string::npos) // var *
+		{
+			case_pointer = &value;
+			asterix = true;
+		}
+		else // var
+		{
+			case_pointer = &value;
+			asterix = false;
+		}
 	}
 
 	~BackPack()
@@ -27,25 +51,29 @@ public:
 	}
 
 private:
-	const T case_pointer;
+	TtT * case_pointer;
+	bool asterix;
 public:
-	//template <typename T>
-	//friend std::ostream & operator<< (std::ostream  out, const AbstractClass & BP);
-
-	/*friend std::ostream& operator<< (std::ostream & os, const BackPack& rhs) {
-		os << "dziala !";
-		return os;
-	}*/
+	const BackPack& getRef() const {
+		return *this;
+	}
+public:
+	template <class TtT>
+	friend std::ostream & operator<< (std::ostream & out, const BackPack<TtT> & BP);
 
 };
 
-/*std::ostream& operator<<  (std::ostream  out, const AbstractClass & BP)
+template <class TtT>
+std::ostream & operator<< (std::ostream & out, class BackPack<typename TtT> const& BP)
 {
-	
-	out << "elo";
+	if(!BP.asterix)
+		out << "type: " << typeid(TtT).name() << " [" << *BP.case_pointer << "]\r\n";
+	else
+		out << "type: " << typeid(TtT).name() << " [" << (TtT)BP.case_pointer << "]\r\n";
+	//out << "type: " << typeid(TtT).name() << " [" << *(TtT)BP.case_pointer << "]\r\n";
 
 	return out;
-}*/
+}
 
 
 

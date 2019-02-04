@@ -259,14 +259,15 @@ public:
 	D(classT in)
 		: d(in) {};
 
-	bool operator>(const D& rhs) const {
+	/*bool operator>(const D& rhs) const {
 		return (d > rhs.d);
-	}
+	}*/
 
-	classT operator=(const D<classT>& rhs)
+	/*classT operator=(const D<classT>& rhs)
 	{
 
-	}
+	}*/
+
 
 	friend std::ostream& operator<< (std::ostream & os, const D& rhs) {
 		os << rhs.d;
@@ -291,12 +292,14 @@ public:
 
 	}
 
-	template<class classT> friend std::ostream& operator<< (std::ostream & os, const Duzo<classT>& rhs);
+	template<class classT>
+	friend std::ostream& operator<< (std::ostream & os, const Duzo<classT>& rhs);
 private:
 	classT d;
 };
 
-template<class classT> std::ostream& operator<<(std::ostream& os, class Duzo<typename classT> const& rhs)
+template<typename classT>
+std::ostream& operator<<(std::ostream& os, class Duzo<typename classT> const& rhs)
 {
 	os << rhs.d;
 	return os;
@@ -318,8 +321,25 @@ int main()
 	std::cout << d2 << std::endl;
 	AbstractClass * hard;
 
-	BackPack<char> B('a');
+	//BackPack<char> B('a');
 	//std::cout << B << std::endl;
+	//std::string kalisz = "monitor";
+	//BackPack<std::string> BB(kalisz);
+	//std::cout << BB << std::endl;
+	//char * kalosz = (char*)"glosnik";
+	//BackPack<char*> BBB(kalosz);
+	//std::cout << BBB << std::endl;
+	//char kubek[] = {'k','u','b','e','k',0};
+	//BackPack<char*> BBBB((char*)kubek);
+	//std::cout << BBBB << std::endl;
+	//char* kiszonka = (char*)"zz";
+	//BackPack<char*> C(kiszonka);
+	//std::cout << C << std::endl;
+	/*char f = 'f';
+	char ** pip = new char*;
+	pip[0] = &f;
+	*(pip[0]) = 'g';
+	println(*(pip[0]));*/
 
 	//--help
 	int i1 = 1;
@@ -327,7 +347,6 @@ int main()
 	D<int> dh1(i1);
 	D<int> dh2(i2);
 
-	std::cout << my_max(dh1, dh2) << std::endl;
 	std::cout <<"helper: "<< dh1 << std::endl;
 	//--help
 	//help2
