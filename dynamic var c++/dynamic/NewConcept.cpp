@@ -57,6 +57,7 @@ class Object {
     }
 };
 
+/*
 int main()
 {
     char znak = 'r';
@@ -78,3 +79,4 @@ int main()
 
     return 0;
 }
+*/

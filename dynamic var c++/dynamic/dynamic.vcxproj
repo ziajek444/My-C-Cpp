@@ -117,6 +117,7 @@
   <ItemGroup>
     <ClCompile Include="AbstractClass.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="NewConcept.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AbstractClass.h" />
