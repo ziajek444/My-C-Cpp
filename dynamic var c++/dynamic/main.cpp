@@ -25,6 +25,11 @@ void printToConsole(T1 typ, T2 wartosc)
 {
 	std::cout << static_cast<T1>(wartosc);
 }
+template <typename T1, typename T2>
+T1 kastowanie(T1 typ, T2 wartosc)
+{
+	return static_cast<T1>(wartosc);
+}
 
 class dynamic
 {
@@ -34,6 +39,7 @@ class dynamic
 		struct ObjectConcept {
 			public:
 				virtual void PrintFromDynmic() const = 0;
+				virtual void SetObjectValue(int * adres) const = 0;
 				virtual ~ObjectConcept() {}
 		};
 
@@ -41,7 +47,6 @@ class dynamic
 		template< class T3 > 
 		struct ObjectModel : ObjectConcept {
 			public:
-				
 				ObjectModel(const T3& t)  {
 					//int size = sizeof(t) / sizeof(T3);
 					//object = new T3[size];
@@ -57,12 +62,16 @@ class dynamic
 				{
 					printToConsole(*object, *object);
 				}
+				virtual void SetObjectValue(int * adres) const {
+					// to do
+				}
 				virtual ~ObjectModel() {
 					if(IsNeedToDeallocate)
 						delete[] object;
 				}
-			private:
+			public:
 				T3 * object;
+			private:
 				int IsNeedToDeallocate;
 		};
 #else
@@ -181,6 +190,23 @@ public:
 		}
 #pragma endregion
 
+#pragma region dodawanie
+		// There is the real powerfull of my work. No one can do that ! (not even ::any)
+	public:
+		template <class T>
+		T operator+ (const T & value) const {
+			//tutaj chce dodac object.. trail->
+			//(this->DYNAMIC)->PrintFromDynmic(); (ObjectModel) ->
+			//printToConsole(*object, *object); (fun zewnetrzna)
+			//return this->DYNAMIC;
+			//dynamic_cast<ObjectModel&>(DYNAMIC);
+			int k = 9;
+			//ObjectModel * p = new ObjectModel();
+			return 0;
+			// TODO
+		}
+#pragma endregion
+
 #pragma region Dtor
 	public:
 		virtual ~dynamic() { }
@@ -197,6 +223,33 @@ private:
 	int type_size;
 	
 #pragma endregion
+
+};
+
+//--------------obiekt
+class klasa
+{
+	
+public:
+	klasa() : kalosz(7)
+	{
+
+	}
+	int kalosz;
+
+	void SetKalosz(int newValue)
+	{
+		kalosz = newValue;
+	}
+
+	int GetKalosz() { return kalosz; }
+
+public:
+	friend std::ostream & operator<< (std::ostream & out, const klasa & am) {
+		out << "kalosz: " << am.kalosz;
+		return out;
+	}
+
 
 };
 
@@ -227,6 +280,12 @@ int main()
 	std::string s = "slowo";
 	d = s;
 	std::cout << "\r\n" << d << std::endl;
+
+	d = 5;
+	std::cout << "\r\n" << d << std::endl;
+	int liczba = 3;
+	std::cout << "\r\n" << d + liczba << std::endl;
+
 
 	std::cin.get();
 

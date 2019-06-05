@@ -56,27 +56,3 @@ class Object {
         return out;
     }
 };
-
-/*
-int main()
-{
-    char znak = 'r';
-    double ero = 0.789;
-    char * slowo = (char*)"encepence\0";
-    char tablica[] = "encepence\0";
-    Object obj1(tablica);
-    obj1.T_print_();
-    CARET
-
-    std::cout<<obj1<<std::endl;
-
-
-    double d = 2.4;
-
-    std::cout << std::fixed;
-
-    //printToConsole(d,6);
-
-    return 0;
-}
-*/
