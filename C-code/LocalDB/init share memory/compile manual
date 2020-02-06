@@ -1,0 +1,5 @@
+gcc -c ism.c
+gcc -o program ism.o -lLocalDB
+./program
+
+output ism.o and program

@@ -1,0 +1,5 @@
+gcc -c write_all.c
+gcc -o program write_all.o -lLocalDB
+./program
+
+output write_all.o and program

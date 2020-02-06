@@ -1,0 +1,5 @@
+gcc -c print_from_base.c
+gcc -o program print_from_base.o -lLocalDB
+./program
+
+output print_from_base.o and program

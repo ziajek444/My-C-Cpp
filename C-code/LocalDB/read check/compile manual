@@ -1,0 +1,5 @@
+gcc -c read_check.c
+gcc -o program read_check.o -lLocalDB
+./program
+
+output read_check.o and program

@@ -1,0 +1,13 @@
+make script.c
+
+gcc -fPIC -c sensor_r.c
+gcc -fPIC -c sensor_w.c
+gcc -fPIC -c sensor_l.c
+
+gcc -shared -o libLocalDB.so sensor_r.o sensor_w.o sensor_l.o 
+
+sudo mv ...
+or
+sudo cp libLocalDB.so /usr/lib
+
+sudo ldconfig
